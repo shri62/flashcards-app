@@ -1,0 +1,275 @@
+:root {
+	font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+	color: #203436;
+	background: #f2f6f4;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	--color-ink: #203436;
+	--color-muted: #647775;
+	--color-teal: #176b63;
+	--color-teal-dark: #10544e;
+	--color-coral: #d8755e;
+	--color-line: #dce6e2;
+	--color-paper: #ffffff;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	min-width: 320px;
+	min-height: 100vh;
+	margin: 0;
+}
+
+button,
+input {
+	font: inherit;
+}
+
+button {
+	min-height: 44px;
+	padding: 0.65rem 1rem;
+	border: 1px solid var(--color-line);
+	border-radius: 8px;
+	background: var(--color-paper);
+	color: var(--color-ink);
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+button:hover {
+	border-color: var(--color-teal);
+	color: var(--color-teal-dark);
+}
+
+button:active {
+	transform: translateY(1px);
+}
+
+button:focus-visible,
+input:focus-visible {
+	outline: 3px solid var(--color-coral);
+	outline-offset: 3px;
+}
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	min-height: 76px;
+	padding: 1rem 2rem;
+	border-bottom: 1px solid var(--color-line);
+	background: var(--color-paper);
+}
+
+header h1 {
+	margin: 0;
+	font-size: 1.35rem;
+}
+
+#new-deck-button,
+#new-card-button {
+	border-color: var(--color-teal);
+	background: var(--color-teal);
+	color: var(--color-paper);
+}
+
+#new-deck-button:hover,
+#new-card-button:hover {
+	border-color: var(--color-teal-dark);
+	background: var(--color-teal-dark);
+	color: var(--color-paper);
+}
+
+.app-layout {
+	display: grid;
+	grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
+	min-height: calc(100vh - 76px);
+}
+
+aside {
+	padding: 2rem 1.25rem;
+	border-right: 1px solid var(--color-line);
+	background: #eaf1ee;
+}
+
+aside h2,
+main h2 {
+	margin: 0 0 1.5rem;
+	font-size: 1.15rem;
+}
+
+form[role="search"] label {
+	display: block;
+	margin-bottom: 0.45rem;
+	color: var(--color-muted);
+	font-size: 0.9rem;
+	font-weight: 700;
+}
+
+input[type="search"] {
+	width: 100%;
+	min-height: 44px;
+	padding: 0.65rem 0.75rem;
+	border: 1px solid #cbd9d4;
+	border-radius: 8px;
+	background: var(--color-paper);
+	color: var(--color-ink);
+}
+
+input[type="search"]::placeholder {
+	color: #849491;
+}
+
+#deck-list {
+	margin: 1.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+#deck-list button {
+	width: 100%;
+	border-color: transparent;
+	background: transparent;
+	text-align: left;
+}
+
+#deck-list button[aria-current="true"] {
+	border-color: #c8ded6;
+	background: #dcebe5;
+	color: var(--color-teal-dark);
+}
+
+main {
+	min-width: 0;
+	padding: clamp(1.5rem, 5vw, 4rem);
+}
+
+main section {
+	width: min(100%, 760px);
+	margin: 0 auto;
+}
+
+main h2 {
+	margin-bottom: 1.25rem;
+	font-size: 1.4rem;
+}
+
+.flashcard {
+	display: grid;
+	min-height: 290px;
+	border-radius: 14px;
+	background: var(--color-paper);
+	box-shadow: 0 12px 30px rgb(32 52 54 / 10%), 0 2px 6px rgb(32 52 54 / 6%);
+	transform-style: preserve-3d;
+	transition: transform 600ms cubic-bezier(0.2, 0.75, 0.3, 1);
+}
+
+.flashcard-front,
+.flashcard-back {
+	display: grid;
+	grid-area: 1 / 1;
+	align-content: center;
+	min-width: 0;
+	padding: clamp(1.5rem, 5vw, 3rem);
+	border-radius: 14px;
+	backface-visibility: hidden;
+}
+
+.flashcard-front h3,
+.flashcard-back h3 {
+	margin: 0 0 1rem;
+	color: var(--color-teal);
+	font-size: 0.85rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.flashcard-front p,
+.flashcard-back p {
+	margin: 0;
+	font-size: clamp(1.25rem, 3vw, 1.8rem);
+	line-height: 1.4;
+	overflow-wrap: anywhere;
+}
+
+.flashcard-back {
+	transform: rotateY(180deg);
+	background: #e4f1ec;
+}
+
+.flashcard-back[hidden] {
+	display: none;
+}
+
+.flashcard:has(.flashcard-back:not([hidden])) {
+	transform: rotateY(180deg);
+}
+
+nav[aria-label="Flashcard controls"] {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-top: 1.25rem;
+}
+
+@media (max-width: 700px) {
+	header {
+		min-height: 68px;
+		padding: 0.85rem 1rem;
+	}
+
+	header h1 {
+		font-size: 1.1rem;
+	}
+
+	.app-layout {
+		grid-template-columns: 1fr;
+	}
+
+	aside {
+		padding: 1.25rem 1rem;
+		border-right: 0;
+		border-bottom: 1px solid var(--color-line);
+	}
+
+	aside h2 {
+		margin-bottom: 1rem;
+	}
+
+	#deck-list {
+		margin-top: 0.75rem;
+	}
+
+	main {
+		padding: 1.5rem 1rem 2rem;
+	}
+
+	.flashcard {
+		min-height: 250px;
+	}
+}
+
+@media (max-width: 420px) {
+	nav[aria-label="Flashcard controls"] {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	nav[aria-label="Flashcard controls"] button {
+		padding-inline: 0.5rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}
