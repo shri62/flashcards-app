@@ -17,7 +17,7 @@
 		<aside aria-labelledby="decks-heading">
 			<h2 id="decks-heading">My Decks</h2>
 
-			<form role="search">
+			<form role="search" aria-label="Search your decks">
 				<label for="deck-search">Search decks</label>
 				<input type="search" id="deck-search" name="deck-search" placeholder="Find a deck">
 			</form>
@@ -36,7 +36,28 @@
 			<section aria-labelledby="study-heading">
 				<h2 id="study-heading">Study: Getting Started</h2>
 
-				<article class="flashcard" aria-label="Flashcard">
+<div class="card-search">
+    <label for="search-input">Search flashcards</label>
+    <input
+        type="search"
+        id="search-input"
+        placeholder="Search questions and answers..."
+        autocomplete="off"
+    />
+   <p id="match-count" role="status" aria-live="polite" aria-atomic="true">
+    Showing all cards
+</p>
+</div>
+<p id="study-instructions">
+    Read the question, think of the answer, then select Flip to reveal it.
+</p>
+
+
+				<article
+    class="flashcard"
+    aria-label="Current flashcard"
+    aria-describedby="study-instructions"
+>
 					<div class="flashcard-front">
 						<h3>Question</h3>
 						<p>What does HTML stand for?</p>
@@ -59,5 +80,33 @@
 			</section>
 		</main>
 	</div>
+    
+<footer class="app-footer">
+  <p>Study tip: Read the question, recall the answer, then flip the card to check.</p>
+</footer>
+
+<dialog id="new-deck-modal" aria-labelledby="new-deck-title">
+  <form id="new-deck-form">
+    <h2 id="new-deck-title">Create New Deck</h2>
+
+    <label for="new-deck-name">Deck name</label>
+    <input
+      type="text"
+      id="new-deck-name"
+      name="deck-name"
+      required
+      maxlength="60"
+      placeholder="Enter deck name"
+    >
+
+    <p id="deck-error" role="alert"></p>
+
+    <div class="modal-buttons">
+      <button type="submit">Create Deck</button>
+      <button type="button" id="cancel-deck-button">Cancel</button>
+    </div>
+  </form>
+</dialog>
+
 </body>
 </html>

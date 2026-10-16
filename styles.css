@@ -1,275 +1,583 @@
+
+/* Part 6: Theme variables and accessibility improvements */
+
 :root {
-	font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-	color: #203436;
-	background: #f2f6f4;
-	font-synthesis: none;
-	text-rendering: optimizeLegibility;
-	--color-ink: #203436;
-	--color-muted: #647775;
-	--color-teal: #176b63;
-	--color-teal-dark: #10544e;
-	--color-coral: #d8755e;
-	--color-line: #dce6e2;
-	--color-paper: #ffffff;
+    color-scheme: light;
+
+    --color-background: #f5f7fb;
+    --color-surface: #ffffff;
+    --color-text: #1f2937;
+    --color-muted: #4b5563;
+    --color-primary: #1d4ed8;
+    --color-primary-hover: #1e40af;
+    --color-border: #9ca3af;
+    --color-focus: #b45309;
+    --color-danger: #b91c1c;
+
+    --radius: 10px;
+    --spacing: 1rem;
+}
+
+/* Use the user's preferred dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+
+        --color-background: #111827;
+        --color-surface: #1f2937;
+        --color-text: #f9fafb;
+        --color-muted: #d1d5db;
+        --color-primary: #93c5fd;
+        --color-primary-hover: #bfdbfe;
+        --color-border: #6b7280;
+        --color-focus: #fbbf24;
+        --color-danger: #fca5a5;
+    }
+}
+
+/* Apply theme colors consistently */
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+aside,
+main,
+.flashcard,
+dialog {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+p,
+label {
+    color: var(--color-text);
+}
+
+/* Make form controls readable */
+input,
+textarea,
+select {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.6rem;
+    font: inherit;
+}
+
+/* Make buttons readable and consistent */
+button {
+    color: var(--color-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* Visible keyboard focus */
+:where(button, input, textarea, select, a, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =========================
+   Basic Settings
+========================= */
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #203436;
+  background: #f2f6f4;
+
+  --primary: #176b63;
+  --primary-dark: #10544e;
+  --text: #203436;
+  --muted: #647775;
+  --border: #dce6e2;
+  --surface: #ffffff;
+  --sidebar: #eaf1ee;
 }
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  margin: 0;
 }
 
 body {
-	min-width: 320px;
-	min-height: 100vh;
-	margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f2f6f4;
+  color: var(--text);
+  overflow-x: hidden;
 }
 
 button,
-input {
-	font: inherit;
+input,
+textarea {
+  font: inherit;
 }
 
 button {
-	min-height: 44px;
-	padding: 0.65rem 1rem;
-	border: 1px solid var(--color-line);
-	border-radius: 8px;
-	background: var(--color-paper);
-	color: var(--color-ink);
-	font-weight: 700;
-	cursor: pointer;
-	transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
 }
 
-button:hover {
-	border-color: var(--color-teal);
-	color: var(--color-teal-dark);
+button:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
-button:active {
-	transform: translateY(1px);
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 button:focus-visible,
-input:focus-visible {
-	outline: 3px solid var(--color-coral);
-	outline-offset: 3px;
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #d8755e;
+  outline-offset: 3px;
 }
 
+/* =========================
+   Header
+========================= */
 header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	min-height: 76px;
-	padding: 1rem 2rem;
-	border-bottom: 1px solid var(--color-line);
-	background: var(--color-paper);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
 header h1 {
-	margin: 0;
-	font-size: 1.35rem;
+  margin: 0;
+  font-size: 1.4rem;
 }
 
 #new-deck-button,
 #new-card-button {
-	border-color: var(--color-teal);
-	background: var(--color-teal);
-	color: var(--color-paper);
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
 }
 
-#new-deck-button:hover,
-#new-card-button:hover {
-	border-color: var(--color-teal-dark);
-	background: var(--color-teal-dark);
-	color: var(--color-paper);
+#new-deck-button:hover:not(:disabled),
+#new-card-button:hover:not(:disabled) {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: #ffffff;
 }
 
+/* =========================
+   Main Layout
+========================= */
 .app-layout {
-	display: grid;
-	grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
-	min-height: calc(100vh - 76px);
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  min-height: calc(100vh - 76px);
+  min-width: 0;
 }
 
 aside {
-	padding: 2rem 1.25rem;
-	border-right: 1px solid var(--color-line);
-	background: #eaf1ee;
+  min-width: 0;
+  padding: 24px 20px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
 }
 
 aside h2,
 main h2 {
-	margin: 0 0 1.5rem;
-	font-size: 1.15rem;
+  margin-top: 0;
 }
 
+/* =========================
+   Deck Search
+========================= */
 form[role="search"] label {
-	display: block;
-	margin-bottom: 0.45rem;
-	color: var(--color-muted);
-	font-size: 0.9rem;
-	font-weight: 700;
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-weight: 600;
 }
 
 input[type="search"] {
-	width: 100%;
-	min-height: 44px;
-	padding: 0.65rem 0.75rem;
-	border: 1px solid #cbd9d4;
-	border-radius: 8px;
-	background: var(--color-paper);
-	color: var(--color-ink);
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #cbd9d4;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
 }
 
-input[type="search"]::placeholder {
-	color: #849491;
-}
-
+/* =========================
+   Deck List
+========================= */
 #deck-list {
-	margin: 1.5rem 0 0;
-	padding: 0;
-	list-style: none;
+  width: 100%;
+  max-height: 400px;
+  margin: 20px 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+#deck-list li {
+  margin-bottom: 8px;
 }
 
 #deck-list button {
-	width: 100%;
-	border-color: transparent;
-	background: transparent;
-	text-align: left;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border-color: transparent;
 }
 
+/* Highlight the selected deck */
 #deck-list button[aria-current="true"] {
-	border-color: #c8ded6;
-	background: #dcebe5;
-	color: var(--color-teal-dark);
+  background: #dcebe5;
+  color: var(--primary-dark);
+  border-color: #c8ded6;
+  font-weight: 700;
 }
 
+/* Rename and Delete Deck Buttons */
+nav[aria-label="Deck controls"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+nav[aria-label="Deck controls"] button {
+  flex: 1;
+}
+
+/* =========================
+   Main Content
+========================= */
 main {
-	min-width: 0;
-	padding: clamp(1.5rem, 5vw, 4rem);
+  min-width: 0;
+  padding: 40px;
 }
 
 main section {
-	width: min(100%, 760px);
-	margin: 0 auto;
+  width: 100%;
+  max-width: 760px;
+  min-width: 0;
+  margin: 0 auto;
 }
 
 main h2 {
-	margin-bottom: 1.25rem;
-	font-size: 1.4rem;
+  margin-bottom: 24px;
+  font-size: 1.4rem;
 }
 
+/* =========================
+   Flashcard and 3D Animation
+========================= */
 .flashcard {
-	display: grid;
-	min-height: 290px;
-	border-radius: 14px;
-	background: var(--color-paper);
-	box-shadow: 0 12px 30px rgb(32 52 54 / 10%), 0 2px 6px rgb(32 52 54 / 6%);
-	transform-style: preserve-3d;
-	transition: transform 600ms cubic-bezier(0.2, 0.75, 0.3, 1);
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: 290px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgb(32 52 54 / 10%);
+
+  /* Creates the 3D viewing perspective */
+  perspective: 1000px;
 }
 
 .flashcard-front,
 .flashcard-back {
-	display: grid;
-	grid-area: 1 / 1;
-	align-content: center;
-	min-width: 0;
-	padding: clamp(1.5rem, 5vw, 3rem);
-	border-radius: 14px;
-	backface-visibility: hidden;
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: 290px;
+  padding: 32px;
+  overflow-wrap: anywhere;
+  border-radius: 14px;
+
+  /* Hides the reverse side while rotating */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  /* Makes the rotation smooth */
+  transition: transform 0.6s ease;
 }
 
+/* Front of the card */
+.flashcard-front {
+  background: var(--surface);
+  transform: rotateY(0deg);
+}
+
+/* Headings on both sides */
 .flashcard-front h3,
 .flashcard-back h3 {
-	margin: 0 0 1rem;
-	color: var(--color-teal);
-	font-size: 0.85rem;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
+  margin: 0 0 16px;
+  color: var(--primary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+/* Question and answer text */
 .flashcard-front p,
 .flashcard-back p {
-	margin: 0;
-	font-size: clamp(1.25rem, 3vw, 1.8rem);
-	line-height: 1.4;
-	overflow-wrap: anywhere;
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  line-height: 1.5;
 }
 
+/* Back of the card */
 .flashcard-back {
-	transform: rotateY(180deg);
-	background: #e4f1ec;
+  background: #e4f1ec;
+  transform: rotateY(180deg);
 }
 
+/* Keep the answer hidden until Flip is clicked */
 .flashcard-back[hidden] {
-	display: none;
+  display: none;
 }
 
-.flashcard:has(.flashcard-back:not([hidden])) {
-	transform: rotateY(180deg);
+/*
+  When JavaScript reveals the answer by removing
+  the hidden attribute, rotate both card sides.
+
+  This works with the existing JavaScript behavior.
+*/
+.flashcard:has(.flashcard-back:not([hidden])) .flashcard-front {
+  transform: rotateY(-180deg);
 }
 
+.flashcard:has(.flashcard-back:not([hidden])) .flashcard-back {
+  transform: rotateY(0deg);
+}
+
+/* =========================
+   Flashcard Controls
+========================= */
 nav[aria-label="Flashcard controls"] {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.75rem;
-	margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
 }
 
+/* =========================
+   Footer
+========================= */
+.app-footer {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+/* =========================
+   Tablet and Mobile
+========================= */
 @media (max-width: 700px) {
-	header {
-		min-height: 68px;
-		padding: 0.85rem 1rem;
-	}
+  header {
+    padding: 16px;
+  }
 
-	header h1 {
-		font-size: 1.1rem;
-	}
+  header h1 {
+    font-size: 1.15rem;
+  }
 
-	.app-layout {
-		grid-template-columns: 1fr;
-	}
+  .app-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
 
-	aside {
-		padding: 1.25rem 1rem;
-		border-right: 0;
-		border-bottom: 1px solid var(--color-line);
-	}
+  aside {
+    padding: 20px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
 
-	aside h2 {
-		margin-bottom: 1rem;
-	}
+  main {
+    padding: 24px 16px;
+  }
 
-	#deck-list {
-		margin-top: 0.75rem;
-	}
-
-	main {
-		padding: 1.5rem 1rem 2rem;
-	}
-
-	.flashcard {
-		min-height: 250px;
-	}
+  .flashcard,
+  .flashcard-front,
+  .flashcard-back {
+    min-height: 250px;
+  }
 }
 
 @media (max-width: 420px) {
-	nav[aria-label="Flashcard controls"] {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+  header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
 
-	nav[aria-label="Flashcard controls"] button {
-		padding-inline: 0.5rem;
-	}
+  header h1 {
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+
+  main {
+    padding: 24px 12px;
+  }
+
+  .flashcard-front,
+  .flashcard-back {
+    padding: 20px;
+  }
+
+  nav[aria-label="Flashcard controls"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  nav[aria-label="Flashcard controls"] button {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 4px;
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
 }
 
+/* =========================
+   Dark Mode
+========================= */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #f9fafb;
+    background: #111827;
+
+    --text: #f9fafb;
+    --muted: #cbd5e1;
+    --border: #475569;
+    --surface: #1f2937;
+    --sidebar: #17212f;
+    --primary: #5eead4;
+    --primary-dark: #99f6e4;
+  }
+
+  body {
+    background: #111827;
+    color: var(--text);
+  }
+
+  header,
+  main,
+  .app-footer {
+    background: #111827;
+    color: var(--text);
+  }
+
+  aside {
+    background: var(--sidebar);
+  }
+
+  input[type="search"],
+  button,
+  textarea {
+    background: #374151;
+    color: #f9fafb;
+    border-color: #64748b;
+  }
+
+  #new-deck-button,
+  #new-card-button {
+    background: #176b63;
+    color: #ffffff;
+    border-color: #176b63;
+  }
+
+  #new-deck-button:hover:not(:disabled),
+  #new-card-button:hover:not(:disabled) {
+    background: #10544e;
+    color: #ffffff;
+  }
+
+  #deck-list button[aria-current="true"] {
+    background: #1e3a5f;
+    color: #bfdbfe;
+    border-color: #60a5fa;
+  }
+
+  .flashcard {
+    background: var(--surface);
+  }
+
+  .flashcard-front {
+    background: var(--surface);
+  }
+
+  .flashcard-back {
+    background: #243b35;
+  }
+
+  .flashcard-front h3,
+  .flashcard-back h3 {
+    color: #5eead4;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline-color: #fbbf24;
+  }
+}
+
+/* =========================
+   Reduced Motion Accessibility
+========================= */
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
-	}
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
